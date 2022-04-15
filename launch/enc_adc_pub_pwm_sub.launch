@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="port_name" default="/dev/ttyACM0" doc="serial port name"/>
+  <arg name="rqt_plot" default="true"/>
+  
+  <node 
+    name="serial_node" pkg="rosserial_python" type="serial_node.py">
+    <param name="port" type="string" value="/dev/ttyACM0"/>
+    <param name="baud" type="int" value="57600"/>
+  </node>
+  
+  <!-- start adc_to_pwm.py -->
+  <node name="adc_to_pwm" pkg="sdm" type="adc_to_pwm.py" output="screen"> </node>
+  
+  <!-- rqt_plot wird nur gestartet, wenn rqt_plot == true; args="/enc" -->
+  <group if="$(arg rqt_plot)">
+    <node pkg="rqt_plot" type="rqt_plot" output="screen" name="rqt_plot" />
+  </group>
+  
+</launch>
