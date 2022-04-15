@@ -1,6 +1,8 @@
 /*
   roscore
   rosrun rosserial_arduino serial_node.py /dev/ttyACM0
+
+  oder einfach: roslaunch sdm enc_adc_pub_pwm_sub.launch
 */
 
 #include <ros.h>
