@@ -13,7 +13,7 @@ ros::NodeHandle nh;
 
 #include <Encoder.h>
 #define ENC 2000            // pulses per revolution (with Encoder.h)
-Encoder encoder(2, 4);      // best performance: both pins have interrrupt capability
+Encoder encoder(2, 3);      // best performance: both pins have interrrupt capability
 std_msgs::Int32 enc_msg;
 ros::Publisher enc_pub("enc", &enc_msg);
 
