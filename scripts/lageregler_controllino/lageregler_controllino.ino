@@ -10,7 +10,7 @@ ros::NodeHandle nh;
 #include <PID_v1.h>
 volatile double Setpoint;
 double Input, Output;
-double Kp=10, Ki=0, Kd=0;
+double Kp=0.1, Ki=0, Kd=0;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 volatile int enc = 0;
@@ -53,7 +53,8 @@ void setup()
 
   // PID
   Input = analogRead(adc_pin);
-  Setpoint = 100;
+  Setpoint = 420;
+  myPID.SetOutputLimits(-100, 100); 
   myPID.SetMode(AUTOMATIC);
 
   // Motor
@@ -83,13 +84,13 @@ void loop()
 void drive_motor(int pwm)
 {
     if (pwm >= 0) {
-    digitalWrite(motor_in1_pin, LOW);
-    digitalWrite(motor_in2_pin, HIGH);
+    digitalWrite(motor_in1_pin, HIGH);
+    digitalWrite(motor_in2_pin, LOW);
   }
 
   else {
-    digitalWrite(motor_in1_pin, HIGH);
-    digitalWrite(motor_in2_pin, LOW);
+    digitalWrite(motor_in1_pin, LOW);
+    digitalWrite(motor_in2_pin, HIGH);
   }
 
   analogWrite(pwm_pin, int(pwm));
