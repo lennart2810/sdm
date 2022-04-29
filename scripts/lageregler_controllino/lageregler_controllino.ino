@@ -54,7 +54,7 @@ void setup()
   // PID
   Input = analogRead(adc_pin);
   Setpoint = 420;
-  myPID.SetOutputLimits(-100, 100); 
+  myPID.SetOutputLimits(-PWM_MAX, PWM_MAX); 
   myPID.SetMode(AUTOMATIC);
 
   // Motor
