@@ -28,6 +28,9 @@
 # Acknowledgments
 ### Code 
 * [Brunton and Kutz](http://databookuw.com)
+* [krz4tw](https://github.com/krz4tw/Inverted-Pendulum-PID-control)
+
+
 
 ### Literature
 
