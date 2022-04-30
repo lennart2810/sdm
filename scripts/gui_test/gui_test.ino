@@ -2,6 +2,7 @@
 #include <std_msgs/Empty.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Int32MultiArray.h>
 
 ros::NodeHandle  nh;
 
@@ -20,8 +21,13 @@ volatile double kp, ki, kd = 0.0;
 const int kp_led = 6;
 const int ki_led = 5;
 const int kd_led = 4;
-void pidsCb(const std_msgs::Float32MultiArray &pids_msg) { kp = pids_msg.data[0]; ki = pids_msg.data[1]; kd = pids_msg.data[2]; }
-ros::Subscriber<std_msgs::Float32MultiArray> pids_sub("pids", pidsCb);
+//void pidsCb(const std_msgs::Float32MultiArray &pids_msg) { kp = pids_msg.data[0]; ki = pids_msg.data[1]; kd = pids_msg.data[2]; }
+//ros::Subscriber<std_msgs::Float32MultiArray> pids_sub("pids", pidsCb);
+void pidsCb(const std_msgs::Int32MultiArray &pids_msg) { 
+  kp = pids_msg.data[0]; 
+  ki = pids_msg.data[1]; 
+  kd = pids_msg.data[2]; }
+ros::Subscriber<std_msgs::Int32MultiArray> pids_sub("pids", pidsCb);
 
 // REFERENCE
 void messageCb( const std_msgs::Empty& toggle_msg){
@@ -44,9 +50,9 @@ void setup()
 void loop()
 {
   analogWrite(setpoint_led, setpoint);
-  analogWrite(kp_led, map(kp, 0, 2.55, 0, 255)); 
-  analogWrite(ki_led, map(ki, 0, 2.55, 0, 255)); 
-  analogWrite(kd_led, map(kd, 0, 2.55, 0, 255)); 
+  analogWrite(kp_led, kp/100); 
+  analogWrite(ki_led, ki/10); 
+  analogWrite(kd_led, kd); 
 
   adc_msg.data = setpoint + 10;
   adc_pub.publish( &adc_msg );

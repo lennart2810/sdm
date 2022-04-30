@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QVBoxLayout, QLabel, QPushButton,
                              QHBoxLayout, QApplication)
-from std_msgs.msg import Int32, Float32MultiArray, Empty
+from std_msgs.msg import Int32, Float32MultiArray, Empty, Int32MultiArray
 
 
 class UIClass(QWidget):
@@ -19,7 +19,8 @@ class UIClass(QWidget):
         rospy.init_node('setpoint_node', anonymous=True)
 
         self.setpoint_pub = rospy.Publisher('/setpoint',Int32, queue_size=10)
-        self.pids_pub = rospy.Publisher('/pids',Float32MultiArray, queue_size=10)
+        #self.pids_pub = rospy.Publisher('/pids',Float32MultiArray, queue_size=10)
+        self.pids_pub = rospy.Publisher('/pids',Int32MultiArray, queue_size=10)
         self.ref_pub = rospy.Publisher('toggle_led', Empty, queue_size=10)
 
         rospy.Subscriber('/adc', Int32, self.postion_cb)
@@ -38,7 +39,7 @@ class UIClass(QWidget):
         self.setpoint_lcd = QLCDNumber(self)
         self.setpoint_lcd.display(self.setpoint)
         self.setpoint_slider = QSlider(Qt.Horizontal, self)
-        self.setpoint_slider.setMaximum(255)
+        self.setpoint_slider.setMaximum(700)
         self.setpoint_slider.setMinimum(0)
         self.setpoint_slider.setValue(self.setpoint)
 
@@ -62,7 +63,7 @@ class UIClass(QWidget):
         self.kp_lcd = QLCDNumber(self)
         self.kp_lcd.display(self.kp)
         self.kp_slider = QSlider(Qt.Horizontal, self)
-        self.kp_slider.setMaximum(255) # 2.55 * 100
+        self.kp_slider.setMaximum(100) # 1 * 100
         self.kp_slider.setMinimum(0)
         self.kp_slider.setValue(self.kp)
         kp_layout = QHBoxLayout()
@@ -76,7 +77,7 @@ class UIClass(QWidget):
         self.ki_lcd = QLCDNumber(self)
         self.ki_lcd.display(self.ki)
         self.ki_slider = QSlider(Qt.Horizontal, self)
-        self.ki_slider.setMaximum(255)
+        self.ki_slider.setMaximum(100)
         self.ki_slider.setMinimum(0)
         self.ki_slider.setValue(self.ki)
         ki_layout = QHBoxLayout()
@@ -90,7 +91,7 @@ class UIClass(QWidget):
         self.kd_lcd = QLCDNumber(self)
         self.kd_lcd.display(self.kd)
         self.kd_slider = QSlider(Qt.Horizontal, self)
-        self.kd_slider.setMaximum(255)
+        self.kd_slider.setMaximum(100)
         self.kd_slider.setMinimum(0)
         self.kd_slider.setValue(self.kd)
         kd_layout = QHBoxLayout()
@@ -100,7 +101,7 @@ class UIClass(QWidget):
         self.kd_slider.valueChanged.connect(self.pids_slot) 
 
         # reference
-        self.ref_button = QPushButton(' toggle led ')
+        self.ref_button = QPushButton(' reference ')
         self.ref_button.clicked.connect(self.ref_slot)
 
         # layout
@@ -118,20 +119,24 @@ class UIClass(QWidget):
         self.show()
 
     def setpoint_slot(self):
-        self.setpoint_lcd.display(float(self.setpoint_slider.value()/1.0))
+        self.setpoint_lcd.display(self.setpoint_slider.value())
         self.setpoint_pub.publish(int(self.setpoint_lcd.value()))
         
     def pids_slot(self):
+        #self.kp_lcd.display(float(self.kp_slider.value()/100.0))
+        #self.ki_lcd.display(float(self.ki_slider.value()/100.0))
+        #self.kd_lcd.display(float(self.kd_slider.value()/100.0))
+
         self.kp_lcd.display(float(self.kp_slider.value()/100.0))
         self.ki_lcd.display(float(self.ki_slider.value()/100.0))
         self.kd_lcd.display(float(self.kd_slider.value()/100.0))
         
-        array = [self.kp_lcd.value(), self.ki_lcd.value(), self.kd_lcd.value()]
-        array_to_pub = Float32MultiArray(data=array)
+        array = [int(self.kp_slider.value()), int(self.ki_slider.value()), int(self.kd_slider.value())]
+        #array_to_pub = Float32MultiArray(data=array)
+        array_to_pub = Int32MultiArray(data=array)
         self.pids_pub.publish(array_to_pub)
 
     def ref_slot(self):
-        print('empty')
         self.ref_pub.publish()
 
     def postion_cb(self, data):
