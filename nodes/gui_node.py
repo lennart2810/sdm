@@ -21,11 +21,11 @@ class UIClass(QWidget):
         self.setpoint_pub = rospy.Publisher('/setpoint',Int32, queue_size=10)
         #self.pids_pub = rospy.Publisher('/pids',Float32MultiArray, queue_size=10)
         self.pids_pub = rospy.Publisher('/pids',Int32MultiArray, queue_size=10)
-        self.ref_pub = rospy.Publisher('toggle_led', Empty, queue_size=10)
+        self.ref_pub = rospy.Publisher('/reference', Empty, queue_size=10)
 
-        rospy.Subscriber('/adc', Int32, self.postion_cb)
+        rospy.Subscriber('/enc', Int32, self.postion_cb)
 
-        self.setpoint = 0
+        self.setpoint = 5000
         self.position = 0
         self.kp = 0
         self.ki = 0
@@ -39,8 +39,8 @@ class UIClass(QWidget):
         self.setpoint_lcd = QLCDNumber(self)
         self.setpoint_lcd.display(self.setpoint)
         self.setpoint_slider = QSlider(Qt.Horizontal, self)
-        self.setpoint_slider.setMaximum(700)
-        self.setpoint_slider.setMinimum(0)
+        self.setpoint_slider.setMaximum(10000) # 400
+        self.setpoint_slider.setMinimum(2500) # 200
         self.setpoint_slider.setValue(self.setpoint)
 
         # position
@@ -63,7 +63,7 @@ class UIClass(QWidget):
         self.kp_lcd = QLCDNumber(self)
         self.kp_lcd.display(self.kp)
         self.kp_slider = QSlider(Qt.Horizontal, self)
-        self.kp_slider.setMaximum(100) # 1 * 100
+        self.kp_slider.setMaximum(500) # 1 * 100
         self.kp_slider.setMinimum(0)
         self.kp_slider.setValue(self.kp)
         kp_layout = QHBoxLayout()
@@ -77,7 +77,7 @@ class UIClass(QWidget):
         self.ki_lcd = QLCDNumber(self)
         self.ki_lcd.display(self.ki)
         self.ki_slider = QSlider(Qt.Horizontal, self)
-        self.ki_slider.setMaximum(100)
+        self.ki_slider.setMaximum(500)
         self.ki_slider.setMinimum(0)
         self.ki_slider.setValue(self.ki)
         ki_layout = QHBoxLayout()
@@ -91,7 +91,7 @@ class UIClass(QWidget):
         self.kd_lcd = QLCDNumber(self)
         self.kd_lcd.display(self.kd)
         self.kd_slider = QSlider(Qt.Horizontal, self)
-        self.kd_slider.setMaximum(100)
+        self.kd_slider.setMaximum(500)
         self.kd_slider.setMinimum(0)
         self.kd_slider.setValue(self.kd)
         kd_layout = QHBoxLayout()

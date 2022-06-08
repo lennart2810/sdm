@@ -17,7 +17,7 @@ void setup() {
 void loop() {
 
     int test = analogRead(CONTROLLINO_A12);
-    Serial.println(test);
+    //Serial.println(test);
     
     analogWrite(CONTROLLINO_AO0, test);
     //Serial.println(analogRead(CONTROLLINO_A12));
