@@ -16,32 +16,47 @@ const byte digitalIn1 = CONTROLLINO_DI1;
 Encoder encoder_rot(interruptPin1, interruptPin0);
 
 // Setpoint_rot
-double Setpoint_rot = ENC / 2;
-double Input_rot, Output_rot = 0;
+float Setpoint_rot = ENC / 2;
+float Input_rot, Output_rot = 0;
 
 // Setpoint_lin
 double Setpoint_lin = (LEFTPOS - RIGHTPOS) / 2 + RIGHTPOS; //Mitte der Linearführung
 double Input_lin, Output_lin = 0;
 
 // PIDs
-#include <PID_v1.h>
-double Kp_rot = 0.3, Ki_rot = 0, Kd_rot = 0.005;
-PID PID_rot(&Input_rot, &Output_rot, &Setpoint_rot, Kp_rot, Ki_rot, Kd_rot, DIRECT);
-
+#include "QuickPID.h"
+float Kp_rot = 3.5, Ki_rot = 0.5, Kd_rot = 0.3; //krass bescheuert Junge!
+//float Kp_rot = 3.5, Ki_rot = 0.5, Kd_rot = 0.3; //krass gut Junge!
+//float Kp_rot = 5.5, Ki_rot = 0.0, Kd_rot = 0.1;
+//float Kp_rot = 3.5, Ki_rot = 0.0, Kd_rot = 0.06; //gut
+//float Kp_rot = 5.5, Ki_rot = 0.001, Kd_rot = 0.001; 
+//float Kp_rot = 3.5, Ki_rot = 0.00002, Kd_rot = 0.06; 
+//float Kp_rot = 3.5, Ki_rot = 0.0, Kd_rot = 0.06; 
+//float Kp_rot = 3.0, Ki_rot = 0.0, Kd_rot = 0.06; wird nicht schlechter
+//float Kp_rot = 1.4, Ki_rot = 0.0, Kd_rot = 0.03; //sehr gut!
+//float Kp_rot = 1.4, Ki_rot = 0.0, Kd_rot = 0.02; //besser
+//float Kp_rot = 1, Ki_rot = 0.0, Kd_rot = 0.02; //gut
+//float Kp_rot = 1, Ki_rot = 0.0, Kd_rot = 0.0;
+QuickPID PID_rot(&Input_rot, &Output_rot, &Setpoint_rot);
 // Motor
 #define PWM_MIN 0
-#define PWM_MAX 50
+#define PWM_MAX 75 //50
 const int pwm_pin = CONTROLLINO_AO0;
 const int motor_in1_pin = CONTROLLINO_DO1;
 const int motor_in2_pin = CONTROLLINO_DO2;
 
 // REFERENCE
-const int ind_pin = CONTROLLINO_DI2;
+const int ind_right_pin = CONTROLLINO_DI2;
+const int ind_left_pin = CONTROLLINO_DI3;
 bool referenced = false;
+
+// FREIGABE
+bool freigegeben = true;
+int pwm_global;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   // encoder
   pinMode(interruptPin0, INPUT);
@@ -50,7 +65,8 @@ void setup()
   pinMode(digitalIn1, INPUT);
 
   // induktion
-  pinMode(ind_pin, INPUT);
+  pinMode(ind_right_pin, INPUT);
+  pinMode(ind_left_pin, INPUT);
 
   // motor
   pinMode(pwm_pin, OUTPUT);
@@ -61,10 +77,10 @@ void setup()
   digitalWrite(motor_in2_pin, LOW);
 
   // pid
-  PID_rot.SetMode(AUTOMATIC);
+  PID_rot.SetMode(PID_rot.Control::automatic);
   PID_rot.SetOutputLimits(-PWM_MAX, PWM_MAX);
-  PID_rot.SetSampleTime(2); //SampleTime auf 50ms
-
+  PID_rot.SetTunings(Kp_rot, Ki_rot, Kd_rot);
+  PID_rot.SetSampleTimeUs(5000); //SampleTime auf 50ms
   delay(1000);
   encoder_rot.write(0);
 }
@@ -74,23 +90,26 @@ void loop()
   long encoder_read = encoder_rot.read();
   long encoder_abs = abs(encoder_read);
   int encoder_int = int(encoder_abs);
-  int encoder_mod = encoder_int%ENC;
+  //int encoder_mod = encoder_int%ENC;
+  int encoder_mod = int(abs(encoder_rot.read()))%ENC;
+  bool left_pin = digitalRead(ind_left_pin);
+  bool right_pin = digitalRead(ind_right_pin);
+  
+  if ( left_pin == false && right_pin == false) {
+    encoder_rot.write(0);
+    freigegeben = true;
+  } 
+  
   Input_rot = encoder_mod;
+  PID_rot.Compute();
   printEncoder();
-
-  if (controlable() == true)
+  
+  if (controlable() == true && freigegeben == true)
   {
-    PID_rot.Compute();
     int drv = int(Output_rot);
     drive_motor(drv);
   } else {
     drive_motor(0);
-  }
-
-  if (digitalRead(ind_pin) == false) {
-    encoder_rot.write(0);
-    PID_rot.SetMode(MANUAL);
-    PID_rot.SetMode(AUTOMATIC);
   }
 
 }
@@ -131,20 +150,20 @@ void drive_motor(int pwm)
 
   //Richtung setzen
   if (pwm > 0) {
-    if (pwm > 2 && pwm < 10) {
+    if (pwm < 10) {
       pwm = 10;
     }
     digitalWrite(motor_in1_pin, HIGH);
     digitalWrite(motor_in2_pin, LOW);
   }
   else {
-    if (pwm < -2 && pwm > -10) {
+    if (pwm > -10) {
       pwm = -10;
     }
     digitalWrite(motor_in1_pin, LOW);
     digitalWrite(motor_in2_pin, HIGH);
   }
-
+  pwm_global = pwm;
   int abs_int = abs(pwm);
   analogWrite(pwm_pin, int(abs_int));
 }
@@ -153,7 +172,7 @@ void reference()
 {
   referenced = false;
   // nach links fahren bis induction aktiviert wird
-  while (digitalRead(ind_pin) == true)
+  while (digitalRead(ind_right_pin) == true)
   {
     drive_motor(8);
   }
@@ -190,7 +209,8 @@ void printEncoder()
     Serial.print(Input_rot);
     Serial.print("\t");
     //if (Output_rot != 0) {
-      Serial.println(Output_rot);
+      //Serial.println(Output_rot);
+      Serial.println(pwm_global);
       //Serial.print("\t");
     //}
     //Serial.println(controlable());
