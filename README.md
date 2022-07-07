@@ -7,6 +7,7 @@
   </a>
 </div>
 <h1 align="center"> Special Topics of Mechatronics <br> Inverted Pendulum </h1>
+
 <br/>
 <div align="center">
   <a href="https://en.wikipedia.org/wiki/Inverted_pendulum">
@@ -15,12 +16,17 @@
   </a>
 </div>
 <br>
-# Acknowledgments
-### Code 
-* [krz4tw](https://github.com/krz4tw/Inverted-Pendulum-PID-control)
+
+<br/>
+<div align="center">
+  <a href="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png">
+    <img src="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png" 
+    alt="Images" width="300">
+  </a>
+</div>
+<br>
 
 
-### Literature
 
 ## Clone Repository
    ```sh
