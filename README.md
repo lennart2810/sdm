@@ -14,12 +14,6 @@
     alt="Images" width="200">
   </a>
 </div>
-<div align="center">
-  <a href="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png">
-    <img src="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png" 
-    alt="Images" width="600">
-  </a>
-</div>
 <br>
 # Acknowledgments
 ### Code 
