@@ -10,18 +10,9 @@
 
 <br/>
 <div align="center">
-  <a href="https://en.wikipedia.org/wiki/Inverted_pendulum">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Cart-pendulum.svg" 
-    alt="Images" width="200">
-  </a>
-</div>
-<br>
-
-<br/>
-<div align="center">
   <a href="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png">
     <img src="https://github.com/lennart2810/sdm/blob/master/CAD/assembly_screenshot.png" 
-    alt="Images" width="300">
+    alt="Images" width="600">
   </a>
 </div>
 <br>
