@@ -1,7 +1,0 @@
-- Kp,Ki,Kd für Nutzung mit seriellem Monitor ausgelegt, sobald die Schnittstelle weg ist, ist die Regelung schlechter. -> Zeitkritisch
-- Lennart findet Laura geil
-- Stromversorgung für den Motor extern, da der Controller neugestartet wird sobald der Notaus deaktiviert (-> Stromfluss erlaubt) wird (Spannungsspitzen?). Dadurch würde auch die Nullpoisition des Pendels resettet
-- Zwei Encoder sind zwar möglich, aber die Performance mit einem Encoder (zwei Interrupts) ist deutlich besser. (CPU zu schwach)
-- Unruhe des Wagens sorgen für kleine Fehlertoleranzen
-- Mindestwert für den Motor da der Motor erst ab 10 PWM eine saubere Bewegung ausführt (sonst stufenweise Verfahrung)
-- 

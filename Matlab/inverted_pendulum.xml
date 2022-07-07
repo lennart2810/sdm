@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<SimscapeMultibodyImportXML version="2.0" xmlns="urn:mathworks:SimscapeMultibody:import" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Created by="lenna" on="07/01/22||12:22:25" using="Simscape Multibody Link Version 7.4" from="Autodesk Inventor 2021 (Build 250183000, 183)"/>
+<ModelUnits mass="lbmass" length="millimeter"/>
+<DataUnits mass="kilogram" length="centimeter"/>
+<RootAssembly name="assembly_simscape.iam" uid="assembly_simscape.iam_{AF5C90F7-4DA6-F52C-2AA8-32B24F8C0840}" version="{052EEB01-644A-7EFA-CC8E-5A1104AB4D85}">
+<AssemblyFile name="assembly_simscape.iam" type="Inventor Assembly"/>
+<InstanceTree>
+<Instance name="base_assembly:2" grounded="true" uid="base_assembly:2" entityUid="base_assembly.ipt_{0BFB5E2E-4363-5E1F-B54C-F3858DAA45B3}">
+<Transform>
+<Rotation>1.0000000000000009 1.9775847626135626e-16 -3.0520543094013131e-16 -2.5326962749261413e-16 1.0000000000000013 -1.3802220389873536e-16 0 1.1373445860857604e-16 0.999999999999998</Rotation>
+<Translation>0 5.4073002406215759e-15 0</Translation>
+</Transform>
+</Instance>
+<Instance name="cart_assembly:2" uid="cart_assembly:2" entityUid="cart_assembly.ipt_{9E5D37EE-4824-1A76-F9DD-C788C7C5793B}">
+<Transform>
+<Rotation>1 2.467248360441189e-16 -1.1657341758564463e-15 -2.4672483604411875e-16 1 -1.3802220389873467e-16 1.1657341758564463e-15 1.3802220389873496e-16 1</Rotation>
+<Translation>-4.2819452486338001 2.3500000000000019 0.039999999999997808</Translation>
+</Transform>
+</Instance>
+<Instance name="pendulum_assembly:2" uid="pendulum_assembly:2" entityUid="pendulum_assembly.ipt_{70B5C848-4C76-283B-D699-D48032241A7F}">
+<Transform>
+<Rotation>-0.99995366102131689 0.0096268276221217822 0 0.0096268276221217822 0.99995366102131689 1.9610165660402748e-16 0 1.9676684735021623e-16 -1.0000000000000002</Rotation>
+<Translation>-6.7818952486337913 8.6999999999999886 4.4399999999999764</Translation>
+</Transform>
+</Instance>
+</InstanceTree>
+<Constraints>
+<Coincident name="Mate:1">
+<ConstraintGeometry geomType="plane">
+<InstancePath>
+<Uid>cart_assembly:2</Uid>
+</InstancePath>
+<Position>-2.4999499999999992 1.1999999999999997 0.78250000000000008</Position>
+<Axis>0 1 0</Axis>
+</ConstraintGeometry>
+<ConstraintGeometry geomType="plane">
+<InstancePath>
+<Uid>base_assembly:2</Uid>
+</InstancePath>
+<Position>13.500000000000329 3.5499999999999843 0.8000000000000228</Position>
+<Axis>1.0191091256313575e-16 0.99999999999999867 0</Axis>
+</ConstraintGeometry>
+</Coincident>
+<Coincident name="Mate:2">
+<ConstraintGeometry geomType="line">
+<InstancePath>
+<Uid>cart_assembly:2</Uid>
+</InstancePath>
+<Position>0 1.1999999999999997 1.02</Position>
+<Axis>-4.9998999999999993 -3.4542108803686402e-16 0</Axis>
+</ConstraintGeometry>
+<ConstraintGeometry geomType="line">
+<InstancePath>
+<Uid>base_assembly:2</Uid>
+</InstancePath>
+<Position>13.500000000000339 3.5499999999999892 1.0600000000000211</Position>
+<Axis>-40 1.8596235662471167e-15 -4.6629367034256676e-14</Axis>
+</ConstraintGeometry>
+</Coincident>
+<Concentric name="Insert:1">
+<ConstraintGeometry geomType="circle">
+<InstancePath>
+<Uid>pendulum_assembly:2</Uid>
+</InstancePath>
+<Position>0 0 0</Position>
+<Axis>0 0 -0.99999999999999978</Axis>
+</ConstraintGeometry>
+<ConstraintGeometry geomType="circle">
+<InstancePath>
+<Uid>cart_assembly:2</Uid>
+</InstancePath>
+<Position>-2.4999499999999903 6.349999999999989 4.3999999999999808</Position>
+<Axis>1.2588745812754775e-15 1.1102230246251534e-15 1</Axis>
+</ConstraintGeometry>
+</Concentric>
+<Coincident name="Insert:1_Coincident">
+<ConstraintGeometry geomType="plane">
+<InstancePath>
+<Uid>pendulum_assembly:2</Uid>
+</InstancePath>
+<Position>0 0 0</Position>
+<Axis>0 0 -0.99999999999999978</Axis>
+</ConstraintGeometry>
+<ConstraintGeometry geomType="plane">
+<InstancePath>
+<Uid>cart_assembly:2</Uid>
+</InstancePath>
+<Position>-2.4999499999999903 6.349999999999989 4.3999999999999808</Position>
+<Axis>1.2588745812754775e-15 1.1102230246251534e-15 1</Axis>
+</ConstraintGeometry>
+</Coincident>
+</Constraints>
+<Joints>
+</Joints>
+</RootAssembly>
+<Assemblies>
+</Assemblies>
+<Parts>
+<Part name="base_assembly.ipt" uid="base_assembly.ipt_{0BFB5E2E-4363-5E1F-B54C-F3858DAA45B3}" version="{C5081EB1-89A0-F661-F259-E525E10CF3F0}">
+<PartFile name="base_assembly.ipt" type="Inventor Part"/>
+<MassProperties>
+<Mass>0.96391096082882066</Mass>
+<CenterOfMass>-14.23473919839442 3.0463341992790567 -5.3966170328021326</CenterOfMass>
+<Inertia>20.452233781552117 531.35770820339087 517.40072419654825 0.6794798863899123 -42.785022782094387 1.8031341158248761</Inertia>
+</MassProperties>
+<GeometryFile name="base_assembly_ipt_ad28aee2.STEP" type="STEP"/>
+<VisualProperties>
+<Ambient r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Diffuse r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Specular r="0" g="0" b="0" a="1"/>
+<Emissive r="0" g="0" b="0" a="1"/>
+<Shininess>0.14999999999999999</Shininess>
+</VisualProperties>
+</Part>
+<Part name="cart_assembly.ipt" uid="cart_assembly.ipt_{9E5D37EE-4824-1A76-F9DD-C788C7C5793B}" version="{5FC4112A-0DBF-853E-CA33-64E795E33C44}">
+<PartFile name="cart_assembly.ipt" type="Inventor Part"/>
+<MassProperties>
+<Mass>0.24150786579816003</Mass>
+<CenterOfMass>-2.4980244038321464 4.8187958017999417 -0.11422806039376482</CenterOfMass>
+<Inertia>2.2332678067028948 1.3679779694294261 2.2432232168347865 0.091202236573666676 -8.4285917590051437e-05 0.0015425230576825014</Inertia>
+</MassProperties>
+<GeometryFile name="cart_assembly_ipt_f98a6c2.STEP" type="STEP"/>
+<VisualProperties>
+<Ambient r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Diffuse r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Specular r="0" g="0" b="0" a="1"/>
+<Emissive r="0" g="0" b="0" a="1"/>
+<Shininess>0.14999999999999999</Shininess>
+</VisualProperties>
+</Part>
+<Part name="pendulum_assembly.ipt" uid="pendulum_assembly.ipt_{70B5C848-4C76-283B-D699-D48032241A7F}" version="{B6670043-7C9A-5556-9E37-61544D4AA2C1}">
+<PartFile name="pendulum_assembly.ipt" type="Inventor Part"/>
+<MassProperties>
+<Mass>0.016367171894622442</Mass>
+<CenterOfMass>8.2424113021585558e-13 -25.800526508185595 0.4994702612395539</CenterOfMass>
+<Inertia>5.5776351536923743 0.0099444579058954718 5.5858132924943424 0.00022307161515072949 3.0366257413687121e-12 -8.3299395578319039e-14</Inertia>
+</MassProperties>
+<GeometryFile name="pendulum_assembly_ipt_18ce7060.STEP" type="STEP"/>
+<VisualProperties>
+<Ambient r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Diffuse r="0.74901960784313726" g="0.74901960784313726" b="0.74901960784313726" a="1"/>
+<Specular r="0" g="0" b="0" a="1"/>
+<Emissive r="0" g="0" b="0" a="1"/>
+<Shininess>0.14999999999999999</Shininess>
+</VisualProperties>
+</Part>
+</Parts>
+</SimscapeMultibodyImportXML>
