@@ -15,7 +15,6 @@
   </a>
 </div>
 <br>
-  
 # Acknowledgments
 ### Code 
 * [krz4tw](https://github.com/krz4tw/Inverted-Pendulum-PID-control)
