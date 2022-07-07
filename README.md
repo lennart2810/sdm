@@ -19,9 +19,6 @@
 
 
 
-## Clone Repository
    ```sh
    git clone https://github.com/lennart2810/sdm.git
    ```
-
-<p align="right"><a href="#top">back to top</a></p>
